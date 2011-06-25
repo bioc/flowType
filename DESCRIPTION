@@ -1,13 +1,12 @@
 Package: flowType
 Type: Package
 Title: Phenotyping Flow Cytometry Assays
-Version: 0.99.1
+Version: 0.99.2
 Date: 2011-04-27
 Author: Nima Aghaeepour
 Maintainer: Nima Aghaeepour <naghaeep@bccrc.ca>
 Description: Phenotyping Flow Cytometry Assays using multidimentional expantion of single dimentional partitions.
-Imports: Biobase, graphics, grDevices, methods, flowCore, flowMeans, sfsmisc,
-rrcov, flowClust, flowMerge, stats
+Imports: Biobase, graphics, grDevices, methods, flowCore, flowMeans, sfsmisc, rrcov, flowClust, flowMerge, stats
 Depends: R (>= 2.7.0)
 Suggests: xtable
 biocViews: FlowCytometry
