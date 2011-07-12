@@ -28,7 +28,7 @@ flowType <- function(Frame, PropMarkers=NA, MFIMarkers=NA, Methods='kmeans', Mar
 
   ##if the method is a number (threshold), use it to partition the cells
   for (i in 1:M){
-    if (is.numeric(Methods[i])){
+    if (!is.na(as.numeric(Methods[i]))){
       Partitions[i,which(X[,i]>as.numeric(Methods[i]))] <- 2
       Partitions[i,which(X[,i]<=as.numeric(Methods[i]))] <- 1
     }
