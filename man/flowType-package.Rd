@@ -26,8 +26,11 @@ and reports their cell frequencies (number of cells) and mean fluorescence inten
   Nima Aghaeepour
 }
 \references{
-Nima Aghaeepour, Pratip K. Chattopadhyay, Anuradha Ganesan, Kieran
-O'Neill, Tess M. Brodie, Habil Zare, John R. Mascola, Holger H. Hoos, Nelson Michael, Ryan R. Brinkman, and Mario Roederer. Early Immunologic Correlates of HIV Protection can be Identified from Computational Analysis of Complex Multivariate T-cell Flow Cytometry Assays. To be submitted to PLoS Computational Biology, 2011.
+  Nima Aghaeepour, Pratip K. Chattopadhyay, Anuradha Ganesan, Kieran
+  O'Neill, Habil Zare, Adrin Jalali, Holger H. Hoos, Mario Roederer,
+  and Ryan R. Brinkman. Early Immunologic Correlates of HIV Protection
+  can be Identified from Computational Analysis of Complex Multivariate
+  T-cell Flow Cytometry Assays. submitted to Bioinformatics, 2011.
 }
 
 
