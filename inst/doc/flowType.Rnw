@@ -122,7 +122,7 @@ for (i in 1:length(ResList)){
   All.Proportions[,i] = ResList[[i]]@CellFreqs
   All.Proportions[,i] = All.Proportions[,i] / max(All.Proportions[which(names(ResList[[i]]@CellFreqs)==''),i])
 }
-@ 
+@
 
 We use a t-test to select the phenotypes that have a significantly different mean across the two groups of patients (FDR=0.05). Remember that in real world use-cases the assumptions of a t-test must be checked or a resampling-based alternative (e.g., a permutation test) should be used. P-value correction for multiple testing (e.g., bonferonni's method) and sensitivity analysis (e.g., bootstrapping) are also necessary.
 
