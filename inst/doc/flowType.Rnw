@@ -15,7 +15,7 @@
 
 \maketitle
 \begin{center}
-{\tt naghaeep@bccrc.ca}
+{\tt naghaeep@gmail.com}
 \end{center}
 
 \textnormal{\normalfont}
