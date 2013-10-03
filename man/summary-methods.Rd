@@ -18,4 +18,8 @@ Prints basic characterstics of a \code{Phenotypes} object.
 \code{\link{flowType}}
 }
 
+\examples{
+#See the vigentte
+}
+
 \keyword{print}

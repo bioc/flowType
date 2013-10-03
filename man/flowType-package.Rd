@@ -30,7 +30,7 @@ and reports their cell frequencies (number of cells) and mean fluorescence inten
   O'Neill, Habil Zare, Adrin Jalali, Holger H. Hoos, Mario Roederer,
   and Ryan R. Brinkman. Early Immunologic Correlates of HIV Protection
   can be Identified from Computational Analysis of Complex Multivariate
-  T-cell Flow Cytometry Assays. submitted to Bioinformatics, 2011.
+  T-cell Flow Cytometry Assays. Bioinformatics, 2011.
 }
 
 
@@ -56,6 +56,10 @@ Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'flowMeans', MarkerNames)
 MFIs=Res@MFIs;
 Proportions=Res@CellFreqs;
 Proportions <- Proportions / max(Proportions)
+names(Proportions) <- unlist(lapply(Res@PhenoCodes, 
+                      function(x){return(decodePhenotype(
+                      x,Res@MarkerNames[PropMarkers],
+                      Res@PartitionsPerMarker))}))
 
 #Select the 30 largest phenotypes
 index=order(Proportions,decreasing=TRUE)[1:30]

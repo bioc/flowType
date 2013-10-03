@@ -22,6 +22,5 @@
 %}
 \examples{
 data(HIVMetaData)
-## maybe str(x) ; plot(x) ...
 }
 \keyword{datasets}

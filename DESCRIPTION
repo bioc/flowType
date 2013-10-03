@@ -1,15 +1,17 @@
 Package: flowType
 Type: Package
 Title: Phenotyping Flow Cytometry Assays
-Version: 1.7.2
-Date: 2011-04-27
-Author: Nima Aghaeepour
-Maintainer: Nima Aghaeepour <naghaeep@gmail.com> Kieran O'Neill <oneillkza@gmail.com>
-Description: Phenotyping Flow Cytometry Assays using multidimentional expantion of single dimentional partitions.
-Imports: Biobase, graphics, grDevices, methods, flowCore, flowMeans, sfsmisc, rrcov, flowClust, flowMerge, stats
-Depends: R (>= 2.10)
+Version: 2.0.0
+Date: 2013-09-30
+Author: Nima Aghaeepour, Kieran O'Neill, Adrin Jalali
+Maintainer: Nima Aghaeepour <naghaeep@gmail.com>
+Description: Phenotyping Flow Cytometry Assays using multidimentional expansion of single dimentional partitions.
+Imports: Biobase, graphics, grDevices, methods, flowCore, flowMeans,
+        sfsmisc, rrcov, flowClust, flowMerge, stats
+Depends: R (>= 2.10), Rcpp (>= 0.10.4)
+LinkingTo: Rcpp
 Suggests: xtable
 biocViews: FlowCytometry
 License: Artistic-2.0
 LazyLoad: yes
-
+Packaged: 2012-03-31 07:35:03 UTC; biocbuild

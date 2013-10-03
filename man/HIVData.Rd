@@ -22,6 +22,5 @@
 %}
 \examples{
 data(HIVData)
-## maybe str(x) ; plot(x) ...
 }
 \keyword{datasets}

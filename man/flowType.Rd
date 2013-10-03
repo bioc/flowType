@@ -9,24 +9,43 @@
   These partitions are then combined to generate a set of multi-dimensional phenotypes.
 }
 \usage{
-flowType(Frame, PropMarkers = NA, MFIMarkers = NA, Methods = "kmeans", MarkerNames="NULL")
+flowType(Frame, PropMarkers=NULL, MFIMarkers=NULL, Methods='kmeans', MarkerNames=NULL, MaxMarkersPerPop=NULL, PartitionsPerMarker=2, Thresholds=NULL, MemLimit=4,verbose=FALSE)
+#If upgrading from flowType 1.x to 2.x, please check documentation as some arguments have changed slightly.
 }
 \arguments{
   \item{Frame}{
     A flowFrame (after transformation) that is going to be phenotyped.
   }
   \item{PropMarkers}{
-    A vector of the indexes or names of the markers for which cell proportions must be measured.
+    A vector of the indexes or names of the markers to partition to specify phenotypes. If \code{NULL}, all markers in the frame will be used.
   }
   \item{MFIMarkers}{
-    A vector of the indexes or names of the markers for which MFIs must be measured.
+    A vector of the indexes or names of the markers for which MFIs must
+    be measured. If \code{NULL}, no markers will be used.
   }
   \item{Methods}{
-    A vector of strings of length 1 or PropMarkers. Values can be "Kmeans", "flowMeans", "flowClust", or a numerical value. If only one method is provided the same method will be used for all of the channels.
+    A single string specifying the method to use to determine thresholds for partitioning of markers.  Values can be "Kmeans", "flowMeans", "flowClust", or "thresholds". If "thresholds" is specified, user-specified thresholds must be provided via the Thresholds parameter.
   }
   \item{MarkerNames}{
-    A vector of names for the channels. If \code{NULL}, the names provided in \code{Frame} will be used.
+    A vector of names for the channels. If \code{NULL}, the names in \code{Frame} will be used.
   }
+  \item{MaxMarkersPerPop}{
+    An integer specifying the maximum number of markers to use to define populations (how "deep" to phenotype). This should be less than or equal to \code{PropMarkers}. If \code{NULL}, will default to the length of \code{PropMarkers}.
+  }
+  \item{PartitionsPerMarker}{
+  	An integer or vector of integers specifing the number of partitions per marker. If a single integer, this number will be used for all markers. If a vector, the numbers will be matched with \code{PropMarkers} in order.
+  }
+  \item{Thresholds}{
+  A list of vectors specifying per-channel thresholds. Each list item corresponds to one marker, and contains the threshold(s) for that marker. If only one vector is provided in the list, then those thresholds will be used for all markers. Otherwise, the list must be of the same length as PropMarkers.
+  Note: if \code{Methods == 'thresholds'}, then \code{Thresholds} must be specified. If not, it is ignored.
+  }
+ \item{MemLimit}{
+    Memory limit in GB. flowType will do a sanity check before executing, and if the total size of counts plus MFI values for all populations would exceed \code{MemLimit}, will not run.   
+  } 
+ \item{verbose}{
+    Boolean variable. If TRUE, information about different processing
+    tasks will be printed into the standard output.
+  } 
 }
 
 \value{
@@ -40,6 +59,10 @@ flowType(Frame, PropMarkers = NA, MFIMarkers = NA, Methods = "kmeans", MarkerNam
   \item{Partitions}{A matrix where each column shows the partitioning of
     the respective channel. 1 and 2 correspond to negative and positive,
   respectively.}
+\item{PhenoCodes}{A vector of strings of length N (the number of markers) for each phenotype measured. For every phenotype, the character corresponding to a given marker can be 0, 1, 2, etc for
+    neutral, negative, positive, bright, etc. See
+    the provided vigenette for more details
+    and examples.}
 }
 
 \references{
@@ -70,6 +93,10 @@ Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'flowMeans', MarkerNames)
 MFIs=Res@MFIs;
 Proportions=Res@CellFreqs;
 Proportions <- Proportions / max(Proportions)
+names(Proportions) <- unlist(lapply(Res@PhenoCodes, 
+                      function(x){return(decodePhenotype(
+                      x,Res@MarkerNames[PropMarkers],
+                      Res@PartitionsPerMarker))}))
 
 #Select the 30 largest phenotypes
 index=order(Proportions,decreasing=TRUE)[1:30]

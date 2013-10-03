@@ -34,9 +34,11 @@ Methods for function plot
 
 
 \author{
-Nima Aghaeepour <\email{naghaeep@bccrc.ca}>
+Nima Aghaeepour <\email{naghaeep@gmail.com}>
 }
-
+\examples{
+#See the vigentte
+}
 
 \seealso{
 \code{\link{flowType}}

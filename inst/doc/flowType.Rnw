@@ -32,8 +32,13 @@ Under the Artistic License, you are free to use and redistribute this software.
 This document demonstrates the functionality of the flowType package for phenotyping FCM assays.
 flowType uses a simple threshold, Kmeans, flowMeans or flowClust to partition every channel to a positive and a negative cell population.
 These partitions are then combined to generate a set of multi-dimensional phenotypes.
-For more details on how this package can be used in a complete analysis pipeline, please refer to the manuscript that describes analysis of $466$ HIV$^+$ patients \cite{Aghaeepour2011Early}. A Sweave example is available at \url{http://www.terryfoxlab.ca/flowsite/flowType}.
+For more details on how this package can be used in a complete analysis pipeline, please refer to the manuscript that describes analysis of $466$ HIV$^+$ patients \cite{aghaeepour2012early,aghaeepour2012rchyoptimyx}. Further examples are available through \cite{aghaeepour2013critical,villanova2013integration,craig2013computational}.
 
+
+\section{Installation}
+flowType relies on the boost libraries. See www.boost.org for
+installation instructions. In Mac OS X you should be able to use
+homebrew (http://mxcl.github.com/homebrew/): \emph{\#brew install boost}
 
 \section{Loading the Library}
 We start by loading the library (for installation guidlines see the Bioconductor website).
@@ -45,13 +50,13 @@ data(DLBCLExample)
 \section{Running flowType}
 We will use the $PropMarkers$ and $MFIMarkers$ arrays for measuring cell proportions and MFIs, respectively. Cell proportion of a given cell population is the number of cells in that population divided by the total number of cells:
 
-<<PropMarkers, echo=TRUE, fig=FALSE>>=
+<<PropMarkers, echo=TRUE, results=hide>>=
 PropMarkers <- 3:5
 MFIMarkers <- PropMarkers
 MarkerNames <- c('FS', 'SS','CD3','CD5','CD19')
-
 Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'flowMeans', MarkerNames);
 @ 
+
 
 
 We can look at the single-dimensional partitions:
@@ -71,20 +76,39 @@ Next we will plot the 20 largest phenotypes. The first phenotype includes all of
 MFIs=Res@MFIs;
 Proportions=Res@CellFreqs;
 Proportions <- Proportions / max(Proportions)
+names(Proportions) <- unlist(lapply(Res@PhenoCodes, 
+                      function(x){return(decodePhenotype(
+                      x,Res@MarkerNames[PropMarkers],
+                      Res@PartitionsPerMarker))}))
+rownames(MFIs)=names(Proportions)
 index=order(Proportions,decreasing=TRUE)[1:20]
 bp=barplot(Proportions[index], axes=FALSE, names.arg=FALSE)
-text(bp+0.2, par("usr")[3]+0.02, srt = 90, adj = 0, labels = names(Proportions[index]), xpd = TRUE, cex=0.8)
+text(bp+0.2, par("usr")[3]+0.02, srt = 90, adj = 0,
+     labels = names(Proportions[index]), xpd = TRUE, cex=0.8)
 axis(2);
 axis(1, at=bp, labels=FALSE);
 title(xlab='Phenotype Names', ylab='Cell Proportion')
 @
 
+
 These phenotypes can now be analyzed using a predictive model (\emph{E.g.,} classification or regression).
+
+\section{Deciding on a cutoff}
+For high-dimensional data (anything more than 15 or so markers), it is often necessary for memory constraint reasons to only find phenotypes made up of less than a certain number of markers at once. We have provided a convenience function to determine how many phenotypes a certain number of markers and thresholding strategy will yield for a given cutoff. Say you wanted to know for 34-colour mass cytometry data how many phenotypes you would get with a cutoff of 10 and using 2 partitions per marker:
+
+<<calcNumPops, echo=true, fig=FALSE>>=
+calcNumPops(rep(2,34), 10)
+@
+
+You can also get an idea of where a good cutoff would be by plotting different cutoffs. If you decided that $10^6$ were enough phenotypes, then you could read off that 4 would be a good choice:
+
+<<calcNumPopsFig, echo=true>>=
+plot(log10(sapply(1:10, function(x){calcNumPops(rep(2,34), x)})), ylab='Cell types (log10)', xlab='Cutoff')
+@
 
 
 \section{Cross-sample Analysis}
-This document demonstrates the functionality of the flowType package for performing cross-sample analysis,
-
+This document demonstrates the functionality of the flowType package for performing cross-sample analysis. 
 The dataset used here is provided by the Scott laboratory of the Simon Fraser University and Spina laboratory of University of California, San Diego.
 This analysis is performed as a proof of principle and is not a complete analysis of this dataset. The data is transformed, compensated, and the lymphocytes are manually gated. The flowFrames have been downsampled to $1000$ events.
 
@@ -93,6 +117,7 @@ Raw FCS files are available.
 The meta-data is stored in a matrix (which consists of FCS filename, tube number, and patient label). In this example, we are interested in the second tube only.
 
 <<loadmetadata, echo=true, fig=FALSE>>=
+library(flowType)
 data(HIVMetaData)
 HIVMetaData <- HIVMetaData[which(HIVMetaData[,'Tube']==2),];
 @ 
@@ -110,19 +135,24 @@ library(flowCore);
 data(HIVData)
 PropMarkers <- 5:10
 MFIMarkers <- PropMarkers
-MarkerNames <- c('Time', 'FSC-A','FSC-H','SSC-A','IgG','CD38','CD19','CD3','CD27','CD20', 'NA', 'NA')
+MarkerNames <- c('Time', 'FSC-A','FSC-H','SSC-A','IgG','CD38','CD19','CD3',
+                 'CD27','CD20', 'NA', 'NA')
 ResList <- fsApply(HIVData, 'flowType', PropMarkers, MFIMarkers, 'kmeans', MarkerNames);
 @ 
 
 Extract all cell proportions from the list of flowType results and normalize them by the total number of cells:
 
 <<CalcProps, echo=true, fig=FALSE>>=
-All.Proportions <- matrix(0,3^length(PropMarkers)-1,length(HIVMetaData[,1]))
+All.Proportions <- matrix(0,3^length(PropMarkers),length(HIVMetaData[,1]))
+rownames(All.Proportions) <- unlist(lapply(ResList[[1]]@PhenoCodes, 
+                      function(x){return(decodePhenotype(
+                      x,ResList[[1]]@MarkerNames[PropMarkers],
+                      ResList[[1]]@PartitionsPerMarker))}))
 for (i in 1:length(ResList)){
-  All.Proportions[,i] = ResList[[i]]@CellFreqs
-  All.Proportions[,i] = All.Proportions[,i] / max(All.Proportions[which(names(ResList[[i]]@CellFreqs)==''),i])
+  All.Proportions[,i] = ResList[[i]]@CellFreqs / ResList[[i]]@CellFreqs[
+                   which(rownames(All.Proportions)=='')]
 }
-@
+@ 
 
 We use a t-test to select the phenotypes that have a significantly different mean across the two groups of patients (FDR=0.05). Remember that in real world use-cases the assumptions of a t-test must be checked or a resampling-based alternative (e.g., a permutation test) should be used. P-value correction for multiple testing (e.g., bonferonni's method) and sensitivity analysis (e.g., bootstrapping) are also necessary.
 
@@ -148,9 +178,12 @@ $179$ phenotypes have been selected. After P-value adjustment, only $5$ of them 
 <<xtabout, echo=TRUE, fig=FALSE, results=tex>>=
 Selected <- which(p.adjust(Pvals)<0.05);
 library(xtable)
-MyTable=cbind(names(ResList[[1]]@CellFreqs)[Selected], format(Pvals[Selected],digits=2), format(p.adjust(Pvals)[Selected],digits=3), format(rowMeans(All.Proportions[Selected,]), digits=3))
-colnames(MyTable)=c('Phenotype Name', 'p-value', 'adjusted p-value', 'cell frequency')
-print(xtable(MyTable, caption='The selected phenotypes, their p-values, adjusted p-values, and cell frequencies'), include.rownames=FALSE, caption.placement = "top");
+MyTable=cbind(names(All.Proportions)[Selected], format(Pvals[Selected],
+  digits=2), format(p.adjust(Pvals)[Selected],digits=3), 
+  format(rowMeans(All.Proportions[Selected,]), digits=3))
+colnames(MyTable)=c('p-value', 'adjusted p-value', 'cell frequency')
+print(xtable(MyTable, caption='The selected phenotypes, their p-values, adjusted p-values, and cell frequencies'), include.rownames=TRUE,
+caption.placement = "top");
 @ 
 
 \bibliographystyle{plain}
