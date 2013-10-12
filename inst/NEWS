@@ -1,6 +1,25 @@
-0.99.4: Minor bug fix when using thresholds
+CHANGES IN VERSION 0.99.4
+--------------------------
 
-0.99.1: This is the submitted version of the package.
+BUG FIXES
 
-2.0.0: New flowType using an enhanced dynamic programming algorithm implemented in C++, allowing for searching only a subset of the phenotype space (to make very high-dimensional data like CyTOF and single cell RT-PCR feasible), and to allow the setting of multiple levels of expression.
-Note: this version brings some minor but necessary changes to the way in which the flowType function is called, which may break backwards compatibility for some users. Also note that the return value from flowType is no longer compatible with version 1.x of RchyOptimyx; users wishing to use RchyOptimyx with flowType 2.x should use the new and improved version 2.x of RchyOptimyx, which is actually simpler and much more intuitive.
+    o Minor bug fix when using thresholds
+
+CHANGES IN VERSION 0.99.1
+-------------------------
+
+NEW FEATURES
+
+    o This is the submitted version of the package.
+
+
+CHANGES IN VERSION 2.0.0
+------------------------
+
+NEW FEATURES
+
+
+    o New flowType using an enhanced dynamic programming algorithm implemented in C++, allowing for searching only a subset of the phenotype space (to make very high-dimensional data like CyTOF and single cell RT-PCR feasible), and to allow the setting of multiple levels of expression.
+
+
+    o Note: this version brings some minor but necessary changes to the way in which the flowType function is called, which may break backwards compatibility for some users. Also note that the return value from flowType is no longer compatible with version 1.x of RchyOptimyx; users wishing to use RchyOptimyx with flowType 2.x should use the new and improved version 2.x of RchyOptimyx, which is actually simpler and much more intuitive.
