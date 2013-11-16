@@ -40,15 +40,15 @@ flowType <- function(Frame,
   }
   
   
-   if( Methods=='thresholds' && (!is.list(Thresholds)) )
+   if( Methods=='Thresholds' && (!is.list(Thresholds)) )
      stop('Thresholds must be provided as a list of vectors.')
     
   if(length(Thresholds) == 1)
   {
     if(length(unique(PartitionsPerMarker)) > 1)
-      stop('When markers have different numbers of partitions, you must specify thresholds on a per-marker basis.')
+      stop('When markers have different numbers of partitions, you must specify Thresholds on a per-marker basis.')
     if(length(Thresholds[[1]])!=length(PartitionsPerMarker[1]))
-      stop('When a single vector is provided for thresholds, it must contain exactly PartitionsPerMarker-1 thresholds.')
+      stop('When a single vector is provided for Thresholds, it must contain exactly PartitionsPerMarker-1 Thresholds.')
     Thresholds <- rep(Thresholds, length(PropMarkers))
   }
   
@@ -60,8 +60,8 @@ flowType <- function(Frame,
     stop('PartitionsPerMarker must either be specified once for all markers, or be of the same length as PropMarkers.')
   
       
-  if(length(Thresholds)==0 && 'thresholds' %in% Methods)
-  	stop('When thresholds is specified as a method, You must provide thresholds via the "Thresholds" argument.')
+  if(length(Thresholds)==0 && 'Thresholds' %in% Methods)
+  	stop('When Thresholds is specified as a method, You must provide Thresholds via the "Thresholds" argument.')
    
   #Get marker names if not provided:
   if(is.null(MarkerNames))
@@ -156,8 +156,8 @@ flowType <- function(Frame,
       Partitions[i,] <- new.km;
     }
 
-    #If method is thresholds, still calculate partition membership for later plotting and labelling purposes:
-    if (Methods[i]=='thresholds'){
+    #If method is Thresholds, still calculate partition membership for later plotting and labelling purposes:
+    if (Methods[i]=='Thresholds'){
     	for (Marker in 1:length(Thresholds))
     	{
     		marker.vec <- rep(1, ncol(Partitions))
@@ -177,11 +177,11 @@ flowType <- function(Frame,
     }
   }
 
-  ###Turn partitions into thresholds to pass down to CPP code:
+  ###Turn partitions into Thresholds to pass down to CPP code:
   partToThresh <- function(ThisChan, Partitions, PropMarkers, ThisExpr)
   {
-  	#If thresholds are pre-specified, return those directly:
-  	if(Methods[ThisChan] == 'thresholds')
+  	#If Thresholds are pre-specified, return those directly:
+  	if(Methods[ThisChan] == 'Thresholds')
   	{
   	  return(Thresholds[[ThisChan]])
   	}
@@ -190,16 +190,16 @@ flowType <- function(Frame,
   	
     #Find maxima of all partitions:
     MaxParts <- sapply(PartLabels, function(x){max(ThisExpr[which(ThisPart==PartLabels[x]),ThisChan])})
-    thresholds <- sort(MaxParts)[1:(length(PartLabels)-1)]
+    Thresholds <- sort(MaxParts)[1:(length(PartLabels)-1)]
     
-    thresholds
+    Thresholds
   }
   
   
-  thresholds <- lapply(1:length(PropMarkers), partToThresh, Partitions, PropMarkers, X)
+  Thresholds <- lapply(1:length(PropMarkers), partToThresh, Partitions, PropMarkers, X)
 
   for (i in 1:M){
-  ##because flowMeans's 1D thresholds are not perfectly aligning, we calculate the partitions one more time after the thresholds are finalized.
+  ##because flowMeans's 1D Thresholds are not perfectly aligning, we calculate the partitions one more time after the Thresholds are finalized.
     if (Methods[i]=='flowMeans'){
     	for (Marker in 1:length(Thresholds))
     	{
@@ -234,7 +234,7 @@ flowType <- function(Frame,
   {
     MFIData <- matrix()
   }
-  res <- .Call('countCells', as.integer(PartitionsPerMarker), thresholds, as.integer(MaxMarkersPerPop), PropMarkers, MFIData, X, NumPops, verbose)
+  res <- .Call('countCells', as.integer(PartitionsPerMarker), Thresholds, as.integer(MaxMarkersPerPop), PropMarkers, MFIData, X, NumPops, verbose)
   Counts <- res$counts;
   if (length(MFIMarkers)>0){
     Means <- res$mfis;

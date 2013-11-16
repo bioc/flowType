@@ -27,3 +27,4 @@ NEW FEATURES
 CHANGES IN VERSION 2.0.1
 ------------------------
 	o Switch to using the BH package for Boost library dependencies, rather than packaging up several MB of source code.
+	o Fixed a bug where flowMeans could provide interleaved partitions, resulting in the partitions directly produced by flowMeans disagreeing with those based on the thresholds computed from those partitions (as is used in the C++ code). Now, the Partitions values returned in the result of running flowType is based on the thresholds computed from the initial flowMeans partitions, and agrees with the results stored in CellCounts.
