@@ -23,3 +23,7 @@ NEW FEATURES
 
 
     o Note: this version brings some minor but necessary changes to the way in which the flowType function is called, which may break backwards compatibility for some users. Also note that the return value from flowType is no longer compatible with version 1.x of RchyOptimyx; users wishing to use RchyOptimyx with flowType 2.x should use the new and improved version 2.x of RchyOptimyx, which is actually simpler and much more intuitive.
+
+CHANGES IN VERSION 2.0.1
+------------------------
+	o Switch to using the BH package for Boost library dependencies, rather than packaging up several MB of source code.
