@@ -198,6 +198,29 @@ flowType <- function(Frame,
   
   thresholds <- lapply(1:length(PropMarkers), partToThresh, Partitions, PropMarkers, X)
 
+  for (i in 1:M){
+  ##because flowMeans's 1D thresholds are not perfectly aligning, we calculate the partitions one more time after the thresholds are finalized.
+    if (Methods[i]=='flowMeans'){
+    	for (Marker in 1:length(Thresholds))
+    	{
+    		marker.vec <- rep(1, ncol(Partitions))
+    		for(partition in 1:(length(Thresholds[[Marker]])+1))
+    		{
+    			if(partition != length(Thresholds[[Marker]])+1)
+    			{
+    				marker.vec[which(X[,Marker] < Thresholds[[Marker]][partition])] <- partition
+    			}
+    			else
+    			{
+    				marker.vec[which(X[,Marker] >= Thresholds[[Marker]][partition-1])] <- partition
+    			}
+    		}
+    		Partitions[Marker,] <- marker.vec
+    	}
+    }
+  }
+
+
   
   ##############################################################################################################################
   # Calculate MFIs and counts via CPP code and return
@@ -228,5 +251,5 @@ flowType <- function(Frame,
   }
   
   Partitions=t(Partitions);
-  return(new("Phenotypes", CellFreqs=Counts, PhenoCodes=Codes, MFIs=Means, PropMarkers=PropMarkers, MFIMarkers=MFIMarkers, MarkerNames=MarkerNames, Partitions=Partitions, PartitionsPerMarker=PartitionsPerMarker));
+  return(new("Phenotypes", CellFreqs=Counts, PhenoCodes=Codes, MFIs=Means, PropMarkers=PropMarkers, MFIMarkers=MFIMarkers, MarkerNames=MarkerNames, Partitions=Partitions, PartitionsPerMarker=PartitionsPerMarker, Thresholds=Thresholds));
 }

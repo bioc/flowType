@@ -8,7 +8,8 @@ setClass("Phenotypes",
            MarkerNames="vector", 
            Partitions="matrix",
            MaxPopSize="numeric",
-           PartitionsPerMarker="numeric"))
+           PartitionsPerMarker="numeric",
+           Thresholds="list"))
 
 setMethod("summary", signature(object="Phenotypes"), function(object){
   cat(sprintf("Phenotypes object identified by flowType with %d cell-frequency-based on %d MFI-based features.\n", length(object@CellFreqs), dim(object@MFIs)[1]*dim(object@MFIs)[2]));

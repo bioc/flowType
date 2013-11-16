@@ -24,6 +24,7 @@ Objects can be created by calls of the form \code{new("Phenotypes", ...)}.
     \item{\code{Partitions}:}{The first level partitions that each cell in the flowFrame belong to in each channel.}
     \item{\code{MaxPopSize}:}{MaxMarkersPerPop}
     \item{\code{PartitionsPerMarker}:}{Vector of number of partitions used for each marker}
+    \item{\code{Thresholds}:}{A list of vectors with the calculated thresholds for each marker (if a clustering algorithm was used) or the thresholds provided by the user.}
   }
 }
 
