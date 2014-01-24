@@ -47,7 +47,7 @@ flowType <- function(Frame,
   {
     if(length(unique(PartitionsPerMarker)) > 1)
       stop('When markers have different numbers of partitions, you must specify Thresholds on a per-marker basis.')
-    if(length(Thresholds[[1]])!=length(PartitionsPerMarker[1]))
+    if(length(Thresholds[[1]])!=PartitionsPerMarker[1]-1)
       stop('When a single vector is provided for Thresholds, it must contain exactly PartitionsPerMarker-1 Thresholds.')
     Thresholds <- rep(Thresholds, length(PropMarkers))
   }
