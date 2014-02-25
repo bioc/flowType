@@ -80,7 +80,6 @@ flowType(Frame, PropMarkers=NULL, MFIMarkers=NULL, Methods='kmeans', MarkerNames
 #Load the library
 library(flowType)
 data(DLBCLExample)
-MarkerNames <- c('Time', 'FSC-A','FSC-H','SSC-A','IgG','CD38','CD19','CD3','CD27','CD20', 'NA', 'NA')
 
 #These markers will be analyzed
 PropMarkers <- 3:5
