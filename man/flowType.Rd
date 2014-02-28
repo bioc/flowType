@@ -24,7 +24,7 @@ flowType(Frame, PropMarkers=NULL, MFIMarkers=NULL, Methods='kmeans', MarkerNames
     be measured. If \code{NULL}, no markers will be used.
   }
   \item{Methods}{
-    A single string specifying the method to use to determine thresholds for partitioning of markers.  Values can be "Kmeans", "flowMeans", "flowClust", or "Thresholds". If "Thresholds" is specified, user-specified thresholds must be provided via the Thresholds parameter.
+    A single string specifying the method to use to determine thresholds for partitioning of markers.  Values can be "kmeans", "flowMeans", "flowClust", or "Thresholds". If "Thresholds" is specified, user-specified thresholds must be provided via the Thresholds parameter.
   }
   \item{MarkerNames}{
     A vector of names for the channels. If \code{NULL}, the names in \code{Frame} will be used.
