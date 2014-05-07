@@ -12,6 +12,10 @@ flowType <- function(Frame,
   ##############################################################################################################################
   # Argument processing
   ##############################################################################################################################
+  
+  ##If old, lower-case methods='thresholds' is supplied, correct this to uppercase:
+  if(Methods=='thresholds') Methods <- 'Thresholds'
+  
   ##If list of markers are not supplied, use all of the available channels.
   if(is.null(PropMarkers))
     PropMarkers=c(1:length(exprs(Frame)[1,]));
@@ -38,7 +42,6 @@ flowType <- function(Frame,
   {
   	stop('Only one method may be specified')
   }
-  
   
    if( Methods=='Thresholds' && (!is.list(Thresholds)) )
      stop('Thresholds must be provided as a list of vectors.')
