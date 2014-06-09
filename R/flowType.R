@@ -160,7 +160,7 @@ flowType <- function(Frame,
     }
 
     #If method is Thresholds, still calculate partition membership for later plotting and labelling purposes:
-    if (Methods[i]=='Thresholds'){
+    if (tolower(Methods[i])=='thresholds'){
     	for (Marker in 1:length(Thresholds))
     	{
     		marker.vec <- rep(1, ncol(Partitions))
