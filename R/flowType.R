@@ -12,10 +12,6 @@ flowType <- function(Frame,
   ##############################################################################################################################
   # Argument processing
   ##############################################################################################################################
-  
-  ##If old, lower-case methods='thresholds' is supplied, correct this to uppercase:
-  if(Methods=='thresholds') Methods <- 'Thresholds'
-  
   ##If list of markers are not supplied, use all of the available channels.
   if(is.null(PropMarkers))
     PropMarkers=c(1:length(exprs(Frame)[1,]));
@@ -42,6 +38,7 @@ flowType <- function(Frame,
   {
   	stop('Only one method may be specified')
   }
+  
   
    if( Methods=='Thresholds' && (!is.list(Thresholds)) )
      stop('Thresholds must be provided as a list of vectors.')
@@ -160,20 +157,16 @@ flowType <- function(Frame,
     }
 
     #If method is Thresholds, still calculate partition membership for later plotting and labelling purposes:
-    if (tolower(Methods[i])=='thresholds'){
+    if (Methods[i]=='Thresholds'){
     	for (Marker in 1:length(Thresholds))
     	{
-    		marker.vec <- rep(1, ncol(Partitions))
-    		for(partition in 1:(length(Thresholds[[Marker]])+1))
+		#Calculate partition membership for each partition for this marker:
+    		marker.vec <- rep(1, ncol(Partitions)) #Set to 1 (first partition) by default
+    		for(partition in 2:(length(Thresholds[[Marker]])+1))
     		{
-    			if(partition != length(Thresholds[[Marker]])+1)
-    			{
-    				marker.vec[which(X[,Marker] < Thresholds[[Marker]][partition])] <- partition
-    			}
-    			else
-    			{
-    				marker.vec[which(X[,Marker] >= Thresholds[[Marker]][partition-1])] <- partition
-    			}
+			#Then go through each partition, setting everything greater than its threshold
+			#Partition membership gets progressively overwritten until all are right
+    			marker.vec[which(X[,Marker] >= Thresholds[[Marker]][partition-1])] <- partition
     		}
     		Partitions[Marker,] <- marker.vec
     	}
@@ -207,16 +200,9 @@ flowType <- function(Frame,
     	for (Marker in 1:length(Thresholds))
     	{
     		marker.vec <- rep(1, ncol(Partitions))
-    		for(partition in 1:(length(Thresholds[[Marker]])+1))
+    		for(partition in 2:(length(Thresholds[[Marker]])+1))
     		{
-    			if(partition != length(Thresholds[[Marker]])+1)
-    			{
-    				marker.vec[which(X[,Marker] < Thresholds[[Marker]][partition])] <- partition
-    			}
-    			else
-    			{
-    				marker.vec[which(X[,Marker] >= Thresholds[[Marker]][partition-1])] <- partition
-    			}
+    			marker.vec[which(X[,Marker] >= Thresholds[[Marker]][partition-1])] <- partition
     		}
     		Partitions[Marker,] <- marker.vec
     	}
