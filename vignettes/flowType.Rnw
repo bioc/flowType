@@ -11,6 +11,7 @@
 \author{Nima Aghaeepour}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \setkeys{Gin}{width=1.0\textwidth, height=1.1\textwidth}
 
 \maketitle
@@ -54,7 +55,7 @@ We will use the $PropMarkers$ and $MFIMarkers$ arrays for measuring cell proport
 PropMarkers <- 3:5
 MFIMarkers <- PropMarkers
 MarkerNames <- c('FS', 'SS','CD3','CD5','CD19')
-Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'flowMeans', MarkerNames);
+Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'kmeans', MarkerNames);
 @ 
 
 
