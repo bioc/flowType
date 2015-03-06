@@ -51,7 +51,7 @@ MFIMarkers <- PropMarkers
 MarkerNames <- c('FS', 'SS','CD3','CD5','CD19')
 
 #Run flowType
-Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'flowMeans', MarkerNames);
+Res <- flowType(DLBCLExample, PropMarkers, MFIMarkers, 'kmeans', MarkerNames);
 
 MFIs=Res@MFIs;
 Proportions=Res@CellFreqs;
