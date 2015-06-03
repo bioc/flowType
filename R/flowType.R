@@ -31,6 +31,13 @@ flowType <- function(Frame,
     MFIMarkers <- unlist(lapply(1:length(MFIMarkers), function(i){which(MFIMarkers[i]==colnames(exprs(Frame)))}))
 
   ##Parse method:
+
+  VALID_METHODS <- c('Thresholds', 'flowMeans', 'kmeans', 'flowClust')
+  Methods <- sapply(Methods, function(x){sub('thresh', 'Thresh', x)}) #fix case issue with thresholds  
+
+  if(! all(sapply(Methods, function(x){x %in% VALID_METHODS})) )
+  	stop(paste('Invalid method specified. Methods must be one of:', paste(VALID_METHODS, collapse = ', ')))
+
   if (length(Methods)==1)
   {
   	Methods=rep(Methods, length(PropMarkers));
@@ -39,8 +46,7 @@ flowType <- function(Frame,
   	stop('Only one method may be specified')
   }
   
-  
-   if( Methods=='Thresholds' && (!is.list(Thresholds)) )
+  if( Methods=='Thresholds' && (!is.list(Thresholds)) )
      stop('Thresholds must be provided as a list of vectors.')
     
   if(length(Thresholds) == 1)
