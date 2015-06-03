@@ -66,14 +66,23 @@ flowType(Frame, PropMarkers=NULL, MFIMarkers=NULL, Methods='kmeans', MarkerNames
 }
 
 \references{
+  Please cite the following for the current version of flowType:
+  
+  O'Neill K, Jalali A, Aghaeepour N, Hoos H, Brinkman RR. Enhanced 
+  flowType/RchyOptimyx: a BioConductor pipeline for discovery in
+  high-dimensional cytometry data.  Bioinformatics. 
+  2014 May 1;30(9):1329-30. doi: 10.1093/bioinformatics/btt770
+  
+  The original paper and description can be found at:
+  
   Nima Aghaeepour, Pratip K. Chattopadhyay, Anuradha Ganesan, Kieran
   O'Neill, Habil Zare, Adrin Jalali, Holger H. Hoos, Mario Roederer,
   and Ryan R. Brinkman. Early Immunologic Correlates of HIV Protection
   can be Identified from Computational Analysis of Complex Multivariate
-  T-cell Flow Cytometry Assays. submitted to Bioinformatics, 2011.
+  T-cell Flow Cytometry Assays. Bioinformatics, 2011.
 }
 \author{
-  Nima Aghaeepour
+  Nima Aghaeepour, Kieran O'Neill
 }
 
 \examples{
