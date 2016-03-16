@@ -1,7 +1,7 @@
 Package: flowType
 Type: Package
 Title: Phenotyping Flow Cytometry Assays
-Version: 2.9.0
+Version: 2.9.1
 Date: 2014-11-26
 Author: Nima Aghaeepour, Kieran O'Neill, Adrin Jalali
 Maintainer: Nima Aghaeepour <naghaeep@gmail.com>
@@ -14,4 +14,5 @@ Suggests: xtable
 biocViews: FlowCytometry
 License: Artistic-2.0
 LazyLoad: yes
+PackageStatus: Deprecated
 Packaged: 2012-03-31 07:35:03 UTC; biocbuild
