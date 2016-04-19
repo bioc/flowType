@@ -182,7 +182,7 @@ library(xtable)
 MyTable=cbind(rownames(All.Proportions)[Selected], format(Pvals[Selected],
   digits=2), format(p.adjust(Pvals)[Selected],digits=3), 
   format(rowMeans(All.Proportions[Selected,]), digits=3))
-colnames(MyTable)=c('p-value', 'adjusted p-value', 'cell frequency')
+colnames(MyTable)=c('Phenotype', 'p-value', 'adjusted p-value', 'cell frequency')
 print(xtable(MyTable, caption='The selected phenotypes, their p-values, adjusted p-values, and cell frequencies'), include.rownames=TRUE,
 caption.placement = "top");
 @ 
