@@ -179,7 +179,7 @@ $179$ phenotypes have been selected. After P-value adjustment, only $5$ of them 
 <<xtabout, echo=TRUE, fig=FALSE, results=tex>>=
 Selected <- which(p.adjust(Pvals)<0.05);
 library(xtable)
-MyTable=cbind(names(All.Proportions)[Selected], format(Pvals[Selected],
+MyTable=cbind(rownames(All.Proportions)[Selected], format(Pvals[Selected],
   digits=2), format(p.adjust(Pvals)[Selected],digits=3), 
   format(rowMeans(All.Proportions[Selected,]), digits=3))
 colnames(MyTable)=c('p-value', 'adjusted p-value', 'cell frequency')
