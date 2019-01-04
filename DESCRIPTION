@@ -1,7 +1,7 @@
 Package: flowType
 Type: Package
 Title: Phenotyping Flow Cytometry Assays
-Version: 2.20.0
+Version: 2.20.1
 Date: 2014-11-26
 Author: Nima Aghaeepour, Kieran O'Neill, Adrin Jalali
 Maintainer: Nima Aghaeepour <naghaeep@gmail.com>
@@ -11,7 +11,7 @@ Imports: Biobase, graphics, grDevices, methods, flowCore, flowMeans,
 Depends: R (>= 2.10), Rcpp (>= 0.10.4), BH (>= 1.51.0-3)
 LinkingTo: Rcpp, BH
 Suggests: xtable
-biocViews: FlowCytometry
+biocViews: ImmunoOncology, FlowCytometry
 License: Artistic-2.0
 LazyLoad: yes
 Packaged: 2012-03-31 07:35:03 UTC; biocbuild
