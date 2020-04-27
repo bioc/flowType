@@ -1,7 +1,7 @@
 Package: flowType
 Type: Package
 Title: Phenotyping Flow Cytometry Assays
-Version: 2.25.0
+Version: 2.26.0
 Date: 2014-11-26
 Author: Nima Aghaeepour, Kieran O'Neill, Adrin Jalali
 Maintainer: Nima Aghaeepour <naghaeep@gmail.com>
